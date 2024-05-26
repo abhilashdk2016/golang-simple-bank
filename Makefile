@@ -11,11 +11,12 @@ migratedown1:
 sqlc:
 	sqlc generate
 test:
-	@go test -v -cover ./...
+	@go test -v -cover -short ./...
 server:
 	@go run main.go
 generatemock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/abhilashdk2016/golang-simple-bank/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/abhilashdk2016/golang-simple-bank/worker TaskDistributor
 genproto:
 	rm -f pb/*.go
 	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto --grpc-gateway_out=pb --grpc-gateway_opt=paths=source_relative
